@@ -1,0 +1,86 @@
+"""
+Local Translation using deep-translator
+Uses Google Translate under the hood via web scraping — NO API KEY needed.
+Install: pip install deep-translator
+"""
+
+SUPPORTED_LANGUAGES = {
+    'en':    'English',
+    'hi':    'Hindi (हिन्दी)',
+    'es':    'Spanish (Español)',
+    'fr':    'French (Français)',
+    'de':    'German (Deutsch)',
+    'ar':    'Arabic (العربية)',
+    'zh-CN': 'Chinese Simplified (简体中文)',
+    'zh-TW': 'Chinese Traditional (繁體中文)',
+    'ja':    'Japanese (日本語)',
+    'ko':    'Korean (한국어)',
+    'pt':    'Portuguese (Português)',
+    'ru':    'Russian (Русский)',
+    'it':    'Italian (Italiano)',
+    'ta':    'Tamil (தமிழ்)',
+    'te':    'Telugu (తెలుగు)',
+    'ml':    'Malayalam (മലയാളം)',
+    'bn':    'Bengali (বাংলা)',
+    'mr':    'Marathi (मराठी)',
+    'gu':    'Gujarati (ગુજરાતી)',
+    'pa':    'Punjabi (ਪੰਜਾਬੀ)',
+    'ur':    'Urdu (اردو)',
+    'tr':    'Turkish (Türkçe)',
+    'vi':    'Vietnamese (Tiếng Việt)',
+    'th':    'Thai (ภาษาไทย)',
+    'id':    'Indonesian (Bahasa Indonesia)',
+    'nl':    'Dutch (Nederlands)',
+    'pl':    'Polish (Polski)',
+    'sv':    'Swedish (Svenska)',
+    'no':    'Norwegian (Norsk)',
+    'fi':    'Finnish (Suomi)',
+}
+
+
+def translate_text(text: str, target_lang: str) -> str:
+    """
+    Translate text to target language using deep-translator.
+    No API key required — uses free Google Translate web endpoint.
+    """
+    if target_lang == 'en' or not text.strip():
+        return text
+
+    try:
+        from deep_translator import GoogleTranslator
+
+        # Split into chunks (Google limit ~5000 chars per request)
+        chunks = _split_text(text, 4500)
+        translated_chunks = []
+        for chunk in chunks:
+            translated = GoogleTranslator(source='auto', target=target_lang).translate(chunk)
+            translated_chunks.append(translated or chunk)
+
+        return ' '.join(translated_chunks)
+
+    except ImportError:
+        return (
+            f"[Translation unavailable]\n"
+            f"Install deep-translator: pip install deep-translator\n\n"
+            f"Original text:\n{text}"
+        )
+    except Exception as e:
+        return f"[Translation error: {e}]\n\nOriginal:\n{text}"
+
+
+def _split_text(text: str, max_len: int) -> list:
+    """Split text into chunks at sentence boundaries"""
+    if len(text) <= max_len:
+        return [text]
+    sentences = text.replace('. ', '.|').split('|')
+    chunks, current = [], ''
+    for s in sentences:
+        if len(current) + len(s) < max_len:
+            current += s + ' '
+        else:
+            if current:
+                chunks.append(current.strip())
+            current = s + ' '
+    if current:
+        chunks.append(current.strip())
+    return chunks or [text[:max_len]]

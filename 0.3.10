@@ -1,0 +1,3 @@
+Requirement already satisfied: pytesseract in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (0.3.13)
+Requirement already satisfied: packaging>=21.3 in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (from pytesseract) (26.2)
+Requirement already satisfied: Pillow>=8.0.0 in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (from pytesseract) (10.4.0)

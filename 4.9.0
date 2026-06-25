@@ -1,0 +1,2 @@
+Requirement already satisfied: opencv-python in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (4.13.0.92)
+Requirement already satisfied: numpy<2.0 in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (from opencv-python) (1.24.4)

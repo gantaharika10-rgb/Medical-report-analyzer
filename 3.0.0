@@ -1,0 +1,2 @@
+Requirement already satisfied: werkzeug in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (3.0.6)
+Requirement already satisfied: MarkupSafe>=2.1.1 in c:\users\satya naidu\downloads\medical-analyzer\venv\lib\site-packages (from werkzeug) (2.1.5)
